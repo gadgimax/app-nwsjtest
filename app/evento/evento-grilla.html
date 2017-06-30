@@ -1,0 +1,16 @@
+<h1>Eventos</h1>
+
+<div class="form-group">
+	<button type="button" ng-click="vm.setDateFilter()" class="btn btn-default" >
+  <span class="glyphicon glyphicon-eye-open" ></span>  Ver Todos
+</button>
+	<!--<button type="button" ng-click="vm.anuladas=undefined" class="btn btn-default" >
+  <span class="glyphicon glyphicon glyphicon-sunglasses" ></span>
+</button>-->
+</div>
+<div ui-grid="vm.gridOptions" ui-grid-tree-view class="grillaEventos">
+  <div class="form-group"><textarea ng-show="vm.anuladas" id="textareaEdit" rows="4" class="form-control">{{vm.anuladas.join(', ')}}</textarea></div>
+</div>
+
+<input type="button" class="btn btn-primary btn-agregar-evento" value="Nuevo Evento" ng-click="vm.addEvento()">
+

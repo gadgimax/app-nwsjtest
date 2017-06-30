@@ -1,0 +1,98 @@
+<div class="modal-header">
+	<h2 class="modal-title" id="modal-title">Entrega de tickets</h2>
+	<button class="btn btn-primary" type="button" ng-click="vm.individual=!vm.individual">Cambiar Numeracion</button>
+				<span ng-if="vm.individual">Ingrese numeros separados por coma ("ej: 104,123,124")</span> 
+</div>
+<div class="modal-body row">
+
+	<div class="col-md-6" ng-show="vm.rendicion.dama">
+		<div>
+			<label for="dama">Cantidad Dama: {{vm.rendicion.dama}}</label>
+		</div>
+		<div ng-show="!vm.individual">
+			<div class="col-md-5">
+				<input type="number" class="form-control" id="damaDesde" placeholder="Desde" ng-model="vm.damaDesde" ng-change="vm.fillHasta('dama')"
+					onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+			</div>
+			<div class="col-md-5">
+				<input type="number" class="form-control" id="damaHasta" placeholder="Hasta" ng-model="vm.damaHasta" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+			</div>
+		</div>
+		<div ng-show="vm.individual">
+			<div class="col-md-10">
+				<input type="text" class="form-control" id="damaIndividual" placeholder="Ingresar Numeros" ng-model="vm.damaIndividual"
+					onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode===32'>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6" ng-show="vm.rendicion.general">
+		<div>
+			<label for="dama">Cantidad General: {{vm.rendicion.general}}</label>
+		</div>
+		<div ng-show="!vm.individual">
+			<div class="col-md-5">
+				<input type="number" class="form-control" id="gralDesde" placeholder="Desde" ng-model="vm.gralDesde" ng-change="vm.fillHasta('general')"
+					onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+			</div>
+			<div class="col-md-5">
+				<input type="number" class="form-control" id="gralHasta" placeholder="Hasta" ng-model="vm.gralHasta" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+			</div>
+		</div>
+		<div ng-show="vm.individual">
+			<div class="col-md-10">
+				<input type="text" class="form-control" id="gralIndividual" placeholder="Ingresar Numeros" ng-model="vm.gralIndividual"
+					onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode===32'>
+			</div>
+		</div>
+
+	</div>
+	<div class="col-md-6" ng-show="vm.rendicion.vip">
+		<div>
+			<label for="dama">Cantidad Vip: {{vm.rendicion.vip}}</label>
+		</div>
+		<div ng-show="!vm.individual">
+			<div class="col-md-5">
+				<input type="number" class="form-control" id="vipDesde" placeholder="Desde" ng-model="vm.vipDesde" ng-change="vm.fillHasta('vip')"
+					onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+			</div>
+			<div class="col-md-5">
+				<input type="number" class="form-control" id="vipHasta" placeholder="Hasta" ng-model="vm.vipHasta" ng-change="vm.fillHasta('vipGold')"
+					onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+			</div>
+		</div>
+		<div ng-show="vm.individual">
+			<div class="col-md-10">
+				<input type="text" class="form-control" id="vipIndividual" placeholder="Ingresar Numeros" ng-model="vm.vipIndividual" onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode===32'>
+			</div>
+		</div>
+
+	</div>
+	<div class="col-md-6" ng-show="vm.rendicion.vip_gold">
+		<div>
+			<label for="dama">Cantidad Vip Gold: {{vm.rendicion.vip_gold}}</label>
+		</div>
+		<div ng-show="!vm.individual">
+			<div class="col-md-5">
+				<input type="number" class="form-control" id="goldDesde" placeholder="Desde" ng-model="vm.goldDesde" ng-change="vm.fillHasta('vipg')"
+					onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+			</div>
+			<div class="col-md-5">
+				<input type="text" class="form-control" id="goldHasta" placeholder="Hasta" ng-model="vm.goldHasta" ng-change="vm.fillHasta('vipg')"
+					onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+			</div>
+		</div>
+		<div ng-show="vm.individual">
+			<div class="col-md-10">
+				<input type="text" class="form-control" id="goldIndividual" placeholder="Ingresar Numeros" ng-model="vm.goldIndividual"
+					onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode===32'>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" type="button" 
+	ng-disabled=" (!(vm.rendicion.dama && vm.damaDesde))&&(!(vm.rendicion.dama && vm.damaIndividual))&&(!(vm.rendicion.general && vm.gralDesde))&&(!(vm.rendicion.general && vm.gralIndividual))&&(!(vm.rendicion.vip && vm.vipDesde))&&(!(vm.rendicion.vip && vm.vipIndividual))&&(!(vm.rendicion.vip_gold && vm.goldDesde))&&(!(vm.rendicion.vip_gold && vm.goldIndividual))" ng-click="vm.ok()">OK</button>
+	<button class="btn btn-primary" type="button" ng-click="vm.cancel()">Cancel</button>
+</div>

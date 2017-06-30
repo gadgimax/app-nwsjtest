@@ -1,0 +1,63 @@
+<h1>Evento</h1>
+
+<form class="col-md-12" name="formEvento">
+	<div class="col-md-4">
+		<div class="form-group" ng-class="{'has-error': !vm.evento.nombre}">
+			<label for="nombre">Nombre</label>
+			<input type="text" class="form-control" id="nombre" placeholder="Ingrese nombre del evento" ng-model="vm.evento.nombre" required>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group" ng-class="{'has-error': !vm.evento.fecha}">
+			<label for="fecha">Fecha</label>
+			<p class="input-group">
+				<input type="text" class="form-control" uib-datepicker-popup ng-model="vm.evento.fecha" is-open="vm.datePickerIsOpen" datepicker-options="vm.dateOptions"
+					close-text="Cerrar" id="fecha" required />
+				<span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="vm.datePickerIsOpen = !vm.datePickerIsOpen "><i class="glyphicon glyphicon-calendar"></i></button></span>
+			</p>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="form-group" ng-class="{'has-error': !vm.evento.lugar}">
+			<label for="lugar">Lugar</label>
+			<input type="text" class="form-control" id="lugar" placeholder="Ingrese nombre del lugar" ng-model="vm.evento.lugar" required>
+		</div>
+	</div>
+
+	<h3>Precios</h3>
+	<i class="glyphicon glyphicon-plus" ng-click="vm.evento.precios.push({});"></i><span>Nueva tanda</span>
+	<i class="glyphicon glyphicon-minus" ng-click="vm.evento.precios.pop();"></i><span>Remover ultima</span>
+
+	<table class="table table-condensed">
+		<thead>
+			<tr>
+				<th>Nombre</th>
+				<th>Dama</th>
+				<th>General</th>
+				<th>VIP</th>
+				<th>VIP Gold</th>
+				<th>Dama RPCard</th>
+				<th>General RPCard</th>
+				<th>VIP RPCard</th>
+				<th>VIP Gold RPCard</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="precio in vm.evento.precios" >
+				<td class="columna-precio-nombre"><input type="text" ng-model="precio.nombre" class="cell-textbox"/></td>
+				<td class="columna-precio"><input type="text" ng-model="precio.precio_dama" class="cell-textbox"/></td>
+				<td class="columna-precio"><input type="text" ng-model="precio.precio_general" class="cell-textbox"/></td>
+				<td class="columna-precio"><input type="text" ng-model="precio.precio_vip" class="cell-textbox"/></td>
+				<td class="columna-precio"><input type="text" ng-model="precio.precio_vip_gold" class="cell-textbox"/></td>
+				<td class="columna-precio"><input type="text" ng-model="precio.precio_dama_rpc" class="cell-textbox"/></td>
+				<td class="columna-precio"><input type="text" ng-model="precio.precio_general_rpc" class="cell-textbox"/></td>
+				<td class="columna-precio"><input type="text" ng-model="precio.precio_vip_rpc" class="cell-textbox"/></td>
+				<td class="columna-precio"><input type="text" ng-model="precio.precio_vip_gold_rpc" class="cell-textbox"/></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<button type="submit" class="btn btn-primary btn-agregar-evento" ng-click="vm.saveEvento()" ng-disabled="!formEvento.$valid">Guardar</button>
+	<button type="button" class="btn btn-agregar-evento" ng-click="vm.goEventos()">Cancelar</button>
+
+</form>

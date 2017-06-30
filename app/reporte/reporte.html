@@ -1,0 +1,35 @@
+<h1>Reportes</h1>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <h3> Eventos </h3>
+        </div>
+        <div class="col-md-4 col-md-offset-4">
+            <span>Fecha:</span>
+            <p class="input-group">
+                <input type="text" class="form-control" uib-datepicker-popup ng-model="vm.fechaReporte" is-open="vm.dateIsOpen" close-text="Cerrar"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="vm.dateIsOpen = !vm.dateIsOpen"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="well">
+            <ul class="nav nav-pills">
+                <li ng-repeat="evento in vm.eventos | orderBy : 'fecha'" class="pill-evento">
+                    <a ng-click="evento.incluir = !evento.incluir">{{evento.nombre}}</a>
+                    <span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-ok': evento.incluir}"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<input type="button" class="btn btn-primary btn-agregar-evento" value="Movimientos Diarios" ng-click="vm.diarios()" uib-tooltip="Usa fecha seleccionada">
+<input type="button" class="btn btn-primary btn-agregar-evento" value="Generar Reporte" ng-click="vm.exportar()" uib-tooltip="Usa los eventos seleccionados">
+<input type="file" id="fileDialog2" nwsaveas="eventos" style="display:none;" accept=".xlsx"/>
+<input type="file" id="fileDialogDiario" nwsaveas="diarios" style="display:none;" accept=".xlsx"/>

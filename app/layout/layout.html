@@ -1,0 +1,22 @@
+<div class="col-sm-2 ">
+    <input type="file" id="fileDirectory" style="display:none;" accept=".zip"/>
+    <input type="file" id="fileDialog" nwsaveas="RPC_bak" style="display:none;" accept=".zip"/>
+    <uib-tabset active="activePill" vertical="true" type="pills">
+        <uib-tab index="0" heading="Inicio" ng-click="vm.goHome()"></uib-tab>
+        <uib-tab index="1" heading="Rendiciones" ng-click="vm.goRendiciones()"></uib-tab>
+        <uib-tab index="2" heading="Publicas" ng-click="vm.goPublicas()"></uib-tab>
+        <uib-tab index="3" heading="Eventos" ng-click="vm.goEventos()"></uib-tab>
+        <!--<uib-tab index="4" heading="Anular Tickets" ng-click="vm.goAnular()"></uib-tab>-->
+        <uib-tab index="4" heading="Reportes" ng-click="vm.goReportes()"></uib-tab>
+        <uib-tab index="5" heading="Gastos" ng-click="vm.goGastos()"></uib-tab>
+        <uib-tab index="6"> 
+            <uib-tab-heading>
+                <button type="button" uib-tooltip="Guardar Datos" ng-click="vm.backupData()" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-floppy-save"></i></button>
+                <button type="button" uib-tooltip="Cargar Datos" ng-click="vm.restoreData()" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-floppy-open"></i></button>
+            </uib-tab-heading>
+        </uib-tab>
+    </uib-tabset>
+
+</div>
+
+<div ui-view class="container col-sm-10"></div>

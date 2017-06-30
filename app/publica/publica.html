@@ -1,0 +1,18 @@
+<h1>Publica</h1>
+
+<form name="formPublica">
+	<div class="col-md-4">
+		<div class="form-group" ng-class="{'has-error': !vm.publica.nombre}">
+			<label for="nombre">Nombre</label>
+			<input type="text" class="form-control" id="nombre" placeholder="Ingrese nombre del publica" ng-model="vm.publica.nombre"
+				required>
+		</div>
+		<div class="form-group" ng-class="{'has-error': !vm.publica.idCard}">
+			<label for="idCard">ID Card</label>
+			<input type="text" class="form-control" id="idCard" placeholder="Ingrese el ID Card del publica" ng-model="vm.publica.idCard"
+				required>
+		</div>
+		<button type="submit" class="btn btn-primary btn-agregar-evento" ng-click="vm.savePublica()" ng-disabled="!formPublica.$valid">Guardar</button>
+		<button type="button" class="btn btn-agregar-evento" ng-click="vm.goPublicas()">Cancelar</button>
+	</div>
+</form>

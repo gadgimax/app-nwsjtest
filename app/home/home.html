@@ -1,0 +1,47 @@
+<h1>
+	Inicio</h1>
+
+<h2>
+	Proximos eventos
+</h2>
+
+</div>
+
+<uib-accordion>
+	<div uib-accordion-group class="panel-default" ng-repeat="evento in vm.eventos | orderBy : 'fecha'" is-open="status.isOpen">
+		<uib-accordion-heading>
+			<span ng-class="{'hdr-evento-sin-asignar': evento.entradasEnCalle, 'hdr-evento-asignado': !evento.entradasEnCalle}">
+                <strong>{{evento.nombre}}</strong>
+            </span>
+			<span> {{evento.fecha | date}} </span>
+			<br>
+			<span> <strong>Entradas vendidas:</strong> {{evento.totalVendidas}} ({{evento.generalesVendidas}} Generales - {{evento.damasVendidas}} Damas -  {{evento.vipsVendidas}} VIPs - {{evento.vipGoldVendidas}} VIP Gold) </span>
+			<span> <strong>Entradas en calle:</strong> {{evento.entradasEnCalle}}</span>
+			<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.isOpen, 'glyphicon-chevron-right': !status.isOpen}"></i>
+		</uib-accordion-heading>
+
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th>Publica</th>
+							<th>Entradas Vendidas Ticket</th>
+							<th>Entradas Vendidas RPCard</th>
+							<th>Entradas En Calle</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-click="vm.goRendiciones(evento,publica)" ng-repeat="publica in evento.publicas | orderBy : 'nombre'">
+							<td>{{publica.nombre}}</td>
+							<td>{{publica.vendidas}}</td>
+							<td>{{publica.vendidasRPC}}</td>
+							<td>{{publica.enCalle}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+</uib-accordion>

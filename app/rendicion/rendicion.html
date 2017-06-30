@@ -1,0 +1,170 @@
+<h1>Rendiciones</h1>
+<input type="text" ng-model="vm.selectedPublica" placeholder="Ingrese nombre de Publica" uib-typeahead="item as item.nombre for item in vm.publicas | filter:$viewValue | limitTo:8"
+	typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-on-select="vm.getEventosByPublica($item, $model, $label, $event);vm.theOpened.isOpen=false;"
+	typeahead-min-length="0" />
+<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+<div ng-show="noResults">
+	<i class="glyphicon glyphicon-remove"></i> No hay resultados
+</div>
+<div ng-show="vm.selectedPublica._id">
+	<h2 class="">Eventos</h2>
+	<div class="form-inline">
+		<p class="input-group col-sm-2" style="width: 135px">
+			<input type="text" ng-change="vm.filterEvents()" class="form-control" uib-datepicker-popup ng-model="vm.fechaDesde" is-open="vm.datePickerIsOpen"
+				datepicker-options="vm.dateOptions" close-text="Cerrar" id="fecha" required />
+			<span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="vm.datePickerIsOpen = !vm.datePickerIsOpen"><i class="glyphicon glyphicon-calendar"></i></button></span>
+		</p>
+		<label for="fecha">Fecha Desde</label>
+	</div>
+	<uib-accordion>
+		<div uib-accordion-group class="panel-default" ng-repeat="evento in vm.eventos | orderBy : ['-isAssignedToPublica' , 'fecha']"
+			is-open="evento.isOpen">
+			<uib-accordion-heading>
+				<span ng-click="vm.eventoOpened(evento)" ng-class="{'hdr-evento-sin-asignar': !evento.isAssignedToPublica, 'hdr-evento-asignado': evento.isAssignedToPublica}">
+				{{evento.nombre}}
+				</span>
+				<i ng-click="vm.eventoOpened(evento)" class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': evento.isOpen, 'glyphicon-chevron-right': !evento.isOpen}"></i>
+			</uib-accordion-heading>
+
+			<select name="precios" id="precios" ng-model="vm.selectedPrecio" ng-options="precio as precio.nombre for precio in evento.precios"
+				ng-change="vm.actualizarMontoParcial(evento)"></select>
+
+			<table class="table table-condensed" name="tblEntradasEnMano">
+				<thead>
+					<tr>
+						<th>Dama
+							<span ng-show="vm.rendicion.isVirtual==='Ticket'">({{vm.selectedPrecio.precio_dama | currency}})</span>
+							<span ng-show="vm.rendicion.isVirtual==='RPC'">({{vm.selectedPrecio.precio_dama_rpc | currency}})<span>
+						</th>
+						<th>General 
+							<span ng-show="vm.rendicion.isVirtual==='Ticket'">({{vm.selectedPrecio.precio_general | currency}})</span>
+							<span ng-show="vm.rendicion.isVirtual==='RPC'">({{vm.selectedPrecio.precio_general_rpc | currency}})<span>
+						</th>
+						<th>VIP 
+							<span ng-show="vm.rendicion.isVirtual==='Ticket'">({{vm.selectedPrecio.precio_vip | currency}})</span>
+							<span ng-show="vm.rendicion.isVirtual==='RPC'">({{vm.selectedPrecio.precio_vip_rpc | currency}})<span>
+						</th>
+						<th>VIP Gold 
+							<span ng-show="vm.rendicion.isVirtual==='Ticket'">({{vm.selectedPrecio.precio_vip_gold | currency}})</span>
+							<span ng-show="vm.rendicion.isVirtual==='RPC'">({{vm.selectedPrecio.precio_vip_gold_rpc | currency}})<span>
+						</th>
+						<th>Monto Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>{{evento.resultadoRendiciones.dama}}</td>
+						<td>{{evento.resultadoRendiciones.general}}</td>
+						<td>{{evento.resultadoRendiciones.vip}}</td>
+						<td>{{evento.resultadoRendiciones.vip_gold}}</td>
+						<td>{{evento.resultadoRendiciones.montoTotal | currency}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+<div class="form-group">
+	<div class="panel panel-default" ng-show="vm.verDetalle">
+				<div class="panel-body bg-info">
+					<table class="table table-condensed ">
+						<thead>
+							<tr>
+								<th>Fecha</th>
+								<th>Tipo</th>
+								<th>Dama</th>
+								<th>General</th>
+								<th>Vip</th>
+								<th>Vip Gold</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="rendi in vm.AllRendiciones | orderBy : 'fecha'">
+								<td>{{rendi.fecha | date}}</td>
+								<td>{{rendi.descripcion}}</td>
+								<td >
+									<span uib-tooltip="{{rendi.numDama.join(', ')}}">
+										<i ng-click="rendi.anularDv=!rendi.anularDv" ng-hide="true"" ng-show="rendi.descripcion==='Entrega' && rendi.dama" class="glyphicon glyphicon-bell"></i>{{rendi.dama}}
+										<select ng-change="vm.anular('d',rendi)" ng-show="rendi.anularDv" class="select" ng-model="vm.anularD" ng-options="f for f in rendi.numDama"><option></option></select>
+									</span>
+								</td>
+								<td >
+									<span  uib-tooltip="{{rendi.numGeneral.join(', ')}}"><i ng-click="rendi.anularGv=!rendi.anularGv" ng-show="rendi.descripcion==='Entrega'&& rendi.general" ng-hide="true" class="glyphicon glyphicon-bell"></i>{{rendi.general}}
+										<select ng-change="vm.anular('g',rendi)" ng-show="rendi.anularGv" class="select" ng-model="vm.anularG" ng-options="f for f in rendi.numGeneral"><option></option></select>
+									</span>
+								</td>
+								<td >
+									<span uib-tooltip="{{rendi.numVip.join(', ')}}"><i ng-click="rendi.anularVv=!rendi.anularVv" ng-show="rendi.descripcion==='Entrega'&& rendi.vip" ng-hide="true" class="glyphicon glyphicon-bell"></i>{{rendi.vip}}</span>
+										<select ng-change="vm.anular('v',rendi)" ng-show="rendi.anularVv" class="select" ng-model="vm.anularV" ng-options="f for f in rendi.numVip"><option></option></select>	
+								</td>
+								<td >
+									<span uib-tooltip="{{rendi.numVipGold.join(', ')}}"><i ng-click="rendi.anularVGv=!rendi.anularVGv" ng-show="rendi.descripcion==='Entrega'&& rendi.vip_gold" ng-hide="true" class="glyphicon glyphicon-bell"></i>{{rendi.vip_gold}}</span>
+										<select ng-change="vm.anular('vg',rendi)" ng-show="rendi.anularVGv" class="select" ng-model="vm.anularVG" ng-options="f for f in rendi.numVipGold"><option></option></select>										
+									</td>
+								<td>
+									<i ng-click="vm.deleteRendicion(rendi,evento)" class="pull-right glyphicon glyphicon-remove" ></i>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+</div>
+
+			<form name="formRendiciones" ng-model-options="{ allowInvalid: true }">
+				<div class="col-md-2 form-group" >
+					<label for="dama">Dama</label>
+					<input type="number" ng-max="evento.resultadoRendiciones.dama" class="form-control" id="dama" placeholder="Cantidad" ng-model="vm.rendicion.dama" ng-change="vm.actualizarMontoParcial(evento)"
+						min="0" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+				</div>
+				<div class="col-md-2 form-group">
+					<label for="general">General</label>
+					<input type="number" ng-max="evento.resultadoRendiciones.general" class="form-control" id="general" placeholder="Cantidad" ng-model="vm.rendicion.general" ng-change="vm.actualizarMontoParcial(evento)"
+						min="0" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+				</div>
+				<div class="col-md-2 form-group">
+					<label for="vip">VIP</label>
+					<input type="number" ng-max="evento.resultadoRendiciones.vip" class="form-control" id="vip" placeholder="Cantidad" ng-model="vm.rendicion.vip" ng-change="vm.actualizarMontoParcial(evento)"
+						min="0" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+				</div>
+				<div class="col-md-2 form-group">
+					<label for="vipGold">VIP Gold</label>
+					<input type="number" ng-max="evento.resultadoRendiciones.vipGold" class="form-control" id="vipGold" placeholder="Cantidad" ng-model="vm.rendicion.vip_gold"
+						ng-change="vm.actualizarMontoParcial(evento)" min="0" onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+				</div>
+				<div class="col-md-2 col-md-offset-2 form-group">
+					<label for="monto">Monto a Pagar</label>
+					<label class="form-control" id="monto">{{evento.montoParcial | currency}}</label>
+				</div>
+				<div ng-show="!formRendiciones.$valid && vm.rendicion.isVirtual==='Ticket'" style="color:maroon" role="alert">Al menos uno de los campos, tiene mas entradas que las que tiene el publica. No se puede rendir/devolver</div>
+			</form>
+			<div class="pull-left btn-group" name="switchRPC">
+				<label class="btn btn-primary" ng-change="vm.actualizarMontoParcial(evento)" ng-model="vm.rendicion.isVirtual" uib-btn-radio="'RPC'" uib-uncheckable="uncheckable">RPCard</label>
+				<label class="btn btn-primary" ng-change="vm.actualizarMontoParcial(evento)" ng-model="vm.rendicion.isVirtual" uib-btn-radio="'Ticket'"  uib-uncheckable="uncheckable">Ticket</label>
+			</div>
+
+			<label class="btn btn-primary  col-md-offset-3" ng-click="vm.verDetalle=!vm.verDetalle" >Detalle</label>
+
+			<div class="pull-right">
+				<div class="btn-group" uib-dropdown>
+					<button id="split-button" ng-disabled="!formRendiciones.$valid && vm.rendicion.isVirtual==='Ticket'" type="button" class="btn btn-primary" ng-click="vm.rendirEntradas(evento)">Rendir</button>
+					<button type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="vm.rendicion.isVirtual==='RPC'">
+						<span class="caret"></span><span class="sr-only">Split button!</span>
+							</button>
+							<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+								<li role="menuitem"><a class="btn-split-cursor" ng-click="vm.llenarConTotales(evento)">Rendir Todo!</a></li>
+							</ul>
+		</div>
+		<div class="btn-group" uib-dropdown>
+			<button id="split-button" ng-disabled="!formRendiciones.$valid || vm.rendicion.isVirtual==='RPC'" type="button" class="btn btn-primary"
+				ng-click="vm.devolverEntradas(evento)">Devolver</button>
+			<button type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="vm.rendicion.isVirtual==='RPC'">
+						<span class="caret"></span><span class="sr-only">Split button!</span>
+					</button>
+			<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+				<li role="menuitem"><a class="btn-split-cursor" ng-click="vm.llenarConTotales(evento)">Devolver Todo!</a></li>
+			</ul>
+		</div>
+		<button type="button" class="btn btn-primary" ng-disabled="vm.rendicion.isVirtual==='RPC'" ng-click="vm.entregarEntradas(evento)">Entregar</button>
+</div>
+</div>
+</uib-accordion>
+</div>

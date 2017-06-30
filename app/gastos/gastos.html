@@ -1,0 +1,17 @@
+<h1>Gastos</h1>
+<div ui-grid="vm.gridOptions" class="grillaGastos"></div>
+<form name="formGastos">
+	<div class="">
+		<div class="form-group" ng-class="{'has-error': !vm.gasto.desc}">
+			<label for="desc">Descripcion</label>
+			<input type="text" class="form-control" id="desc" placeholder="Ingrese descripcion del GASTO" ng-model="vm.gasto.desc"
+				required>
+		</div>
+		<div class="form-group" ng-class="{'has-error': !vm.gasto.monto}">
+			<label for="monto">Monto</label>
+			<input type="text" class="form-control" id="monto" placeholder="Ingrese el monto del GASTO" ng-model="vm.gasto.monto"
+				required>
+		</div>
+		<button type="submit" class="btn btn-primary btn-agregar-evento" ng-click="vm.save()" ng-disabled="!formGastos.$valid">Guardar</button>
+	</div>
+</form>
